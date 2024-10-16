@@ -14,6 +14,72 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
 
+  void _muncul() {
+  String username = _usernameController.text;
+  String email = _emailController.text;
+  String pass = _passwordController.text;
+  String confirm = _confirmPasswordController.text;
+
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        title: const Text(
+          "Data Akun",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.cyan,
+          ),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "Username:",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 5),
+            Text(username),
+            const SizedBox(height: 15),
+            const Text(
+              "Email:",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 5),
+            Text(email),
+            const SizedBox(height: 15),
+            const Text(
+              "Password:",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 5),
+            Text(pass),
+            const SizedBox(height: 15),
+            const Text(
+              "Konfirmasi Password:",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 5),
+            Text(confirm),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text("OK", style: TextStyle(color: Colors.blue)),
+          ),
+        ],
+      );
+    },
+  );
+}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -136,11 +202,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ),
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Pendaftaran Berhasil')),
-                      );
-                    }
+                    _muncul();
                   },
                   child: const Text(
                     'Sign Up',
@@ -183,7 +245,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         label: const Text(
                           'Sign in with Google',
                           style: TextStyle(
-                            fontSize: 17,
+                            fontSize: 18,
                             color: Colors.black,
                           ),
                         ),

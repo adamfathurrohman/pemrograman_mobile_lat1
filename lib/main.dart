@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'signup.dart';
+import 'beranda.dart'; // Pastikan kamu memiliki halaman HomePage di sini
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const LoginPage(),
+      home: const HomePage(), // Set HomePage sebagai halaman utama
       debugShowCheckedModeBanner: false,
     );
   }
@@ -31,8 +32,65 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  void _tampil() {
+    String email = _emailController.text;
+    String pass = _passwordController.text;
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          title: const Text(
+            "Data Akun",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.cyan,
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "Email:",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 5),
+              Text(email),
+              const SizedBox(height: 15),
+              const Text(
+                "Password:",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 5),
+              Text(pass),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text("OK", style: TextStyle(color: Colors.blue)),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   void _forgotPassword() {
     showDialog(
@@ -70,18 +128,21 @@ class _LoginPageState extends State<LoginPage> {
         backgroundColor: Colors.cyan,
         actions: [
           IconButton(
-            icon: const Icon(Icons.search), 
+            icon: const Icon(Icons.search),
             onPressed: () {
+              // Implementasi untuk pencarian jika diperlukan
             },
           ),
           IconButton(
-            icon: const Icon(Icons.notifications), 
+            icon: const Icon(Icons.notifications),
             onPressed: () {
+              // Implementasi untuk notifikasi jika diperlukan
             },
           ),
           IconButton(
-            icon: const Icon(Icons.account_circle), 
+            icon: const Icon(Icons.account_circle),
             onPressed: () {
+              // Implementasi untuk akun jika diperlukan
             },
           ),
         ],
@@ -107,17 +168,16 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               const SizedBox(height: 50),
-
               TextFormField(
-                controller: _usernameController,
+                controller: _emailController,
                 decoration: const InputDecoration(
-                  labelText: 'Username',
+                  labelText: 'Email',
                   border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.person), 
+                  prefixIcon: Icon(Icons.person),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Username tidak boleh kosong';
+                    return 'Email tidak boleh kosong';
                   }
                   return null;
                 },
@@ -125,11 +185,11 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 16),
               TextFormField(
                 controller: _passwordController,
-                obscureText: true, 
+                obscureText: true,
                 decoration: const InputDecoration(
                   labelText: 'Password',
                   border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.lock), 
+                  prefixIcon: Icon(Icons.lock),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -140,19 +200,18 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const SizedBox(height: 20),
               SizedBox(
-                width: double.infinity, 
-                height: 50, // Tinggi tombol
+                width: double.infinity,
+                height: 50,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.cyan,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),                    ),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
                   ),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Login Berhasil')),
-                      );
+                      _tampil();
                     }
                   },
                   child: const Text(
